@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # 環境変数の読み込み
-# base_path = Path(__file__).parents[1]  # backendディレクトリへのパス
+base_path = Path(__file__).parents[1]  # backendディレクトリへのパス
 # env_path = base_path / '.env'
 # load_dotenv(dotenv_path=env_path)
 
