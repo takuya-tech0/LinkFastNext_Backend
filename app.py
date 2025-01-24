@@ -55,27 +55,15 @@ def read_one_customer(customer_id: str = Query(...)):
     result_obj = json.loads(result)
     return result_obj[0] if result_obj else None
 
-
-# @app.get("/allcustomers")
-# def read_all_customer():
-#     result = crud.myselectAll(mymodels.Customers)
-#     # 結果がNoneの場合は空配列を返す
-#     if not result:
-#         return []
-#     # JSON文字列をPythonオブジェクトに変換
-#     return json.loads(result)
-
 @app.get("/allcustomers")
 def read_all_customer():
-   import os
-   result = crud.myselectAll(mymodels.Customers)
-   response = {
-       "current_working_directory": os.getcwd(),
-       "cert_exists": os.path.exists('DigiCertGlobalRootCA.crt.pem'),
-       "cert_path": ssl_cert,
-       "customers": json.loads(result) if result else []
-   }
-   return response
+    result = crud.myselectAll(mymodels.Customers)
+    # 結果がNoneの場合は空配列を返す
+    if not result:
+        return []
+    # JSON文字列をPythonオブジェクトに変換
+    return json.loads(result)
+
 
 @app.put("/customers")
 def update_customer(customer: Customer):
