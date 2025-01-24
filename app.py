@@ -33,7 +33,15 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return {"message": "FastAPI top page!"}
+    return {
+        "message": "FastAPI top page!",
+        "current_working_directory": os.getcwd(),
+        "cert_exists": os.path.exists('DigiCertGlobalRootCA.crt.pem'),
+        "cert_path": ssl_cert
+    }
+# @app.get("/")
+# def index():
+#     return {"message": "FastAPI top page!"}
 
 
 @app.post("/customers")
