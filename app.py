@@ -30,18 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def index():
-    return {
-        "message": "FastAPI top page!",
-        "current_working_directory": os.getcwd(),
-        "cert_exists": os.path.exists('DigiCertGlobalRootCA.crt.pem'),
-        "cert_path": ssl_cert
-    }
-# @app.get("/")
-# def index():
-#     return {"message": "FastAPI top page!"}
+    return {"message": "FastAPI top page!"}
 
 
 @app.post("/customers")
@@ -65,15 +56,26 @@ def read_one_customer(customer_id: str = Query(...)):
     return result_obj[0] if result_obj else None
 
 
+# @app.get("/allcustomers")
+# def read_all_customer():
+#     result = crud.myselectAll(mymodels.Customers)
+#     # 結果がNoneの場合は空配列を返す
+#     if not result:
+#         return []
+#     # JSON文字列をPythonオブジェクトに変換
+#     return json.loads(result)
+
 @app.get("/allcustomers")
 def read_all_customer():
-    result = crud.myselectAll(mymodels.Customers)
-    # 結果がNoneの場合は空配列を返す
-    if not result:
-        return []
-    # JSON文字列をPythonオブジェクトに変換
-    return json.loads(result)
-
+   import os
+   result = crud.myselectAll(mymodels.Customers)
+   response = {
+       "current_working_directory": os.getcwd(),
+       "cert_exists": os.path.exists('DigiCertGlobalRootCA.crt.pem'),
+       "cert_path": ssl_cert,
+       "customers": json.loads(result) if result else []
+   }
+   return response
 
 @app.put("/customers")
 def update_customer(customer: Customer):
